@@ -4,35 +4,24 @@ import {
   FlatList,
   StyleSheet,
   Image,
-  Text,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import {AlbumType} from '../Utils/types';
 import {dataURL} from '../../assets/dummies/dummyData';
 
 const Carousel = () => {
   const [albumList, setAlbumList] = useState<Array<AlbumType>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isHighlight, setIsHighlight] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const fetchData = async () => {
-    fetch(`${dataURL}?_limit=5&_page=${currentPage}`)
+    fetch(`${dataURL}?_limit=10`)
       .then(res => res.json())
       .then(resJson => {
         setAlbumList(albumList.concat(resJson));
-        setIsLoading(false);
       })
       .catch(error => {
-        setIsLoading(false);
         console.error(error);
       });
-  };
-
-  const handleLoadMore = () => {
-    setCurrentPage(currentPage + 1);
-    setIsLoading(true);
   };
 
   const renderItem = ({item, index}: {item: any; index: number}) => {
@@ -48,21 +37,12 @@ const Carousel = () => {
     );
   };
 
-  const renderFooter = () => {
-    return isLoading ? (
-      <View style={CarouselStyle.loader}>
-        <ActivityIndicator size="large" />
-      </View>
-    ) : null;
-  };
-
   useEffect(() => {
-    setIsLoading(true);
     fetchData();
 
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, []);
 
   return (
     <FlatList
@@ -71,9 +51,6 @@ const Carousel = () => {
       data={albumList}
       renderItem={({item, index}) => renderItem({item, index})}
       keyExtractor={(item, index) => index.toString()}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={0.5}
-      ListFooterComponent={renderFooter}
       showsHorizontalScrollIndicator={false}
     />
   );

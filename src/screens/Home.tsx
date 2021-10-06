@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Header from '../components/Header/Header';
 import Carousel from '../components/Carousel/Carousel';
+import InfineList from '../components/InfiniteList/InfiniteList';
 
 const Home = () => {
   return (
@@ -12,7 +13,9 @@ const Home = () => {
       <View style={HomeStyle.carouselContainer}>
         <Carousel />
       </View>
-      <Text>Outer Container</Text>
+      <View style={HomeStyle.listContainer}>
+        <InfineList />
+      </View>
     </View>
   );
 };
@@ -30,5 +33,9 @@ const HomeStyle = StyleSheet.create({
   carouselContainer: {
     height: 146,
     backgroundColor: '#f6f6f6',
+  },
+  listContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
 });
