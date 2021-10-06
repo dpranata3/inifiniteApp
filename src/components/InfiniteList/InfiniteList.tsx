@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -17,7 +18,7 @@ const InfiniteList = () => {
   const [itemList, setItemList] = useState<Array<AlbumType>>([]);
 
   const fetchList = () => {
-    fetch(`${dataURL}?_limit=10&_page${isCurrentPage}`)
+    fetch(`${dataURL}?_limit=5&_page${isCurrentPage}`)
       .then(res => res.json())
       .then(resJson => {
         setItemList(itemList.concat(resJson));
@@ -60,7 +61,6 @@ const InfiniteList = () => {
     fetchList();
 
     return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCurrentPage]);
 
   return (
@@ -70,7 +70,7 @@ const InfiniteList = () => {
       renderItem={({item, index}) => renderItem({item, index})}
       keyExtractor={(item, index) => index.toString()}
       onEndReached={handleMore}
-      onEndReachedThreshold={0.2}
+      onEndReachedThreshold={0.5}
       ListFooterComponent={renderFooter}
       showsVerticalScrollIndicator={false}
     />
