@@ -67,7 +67,7 @@ const InfiniteList = () => {
       renderItem={({item, index}) => renderItem({item, index})}
       keyExtractor={(item, index) => index.toString()}
       onEndReached={handleMore}
-      onEndReachedThreshold={0.7}
+      onEndReachedThreshold={0.5}
       ListFooterComponent={renderFooter}
       showsVerticalScrollIndicator={false}
     />
