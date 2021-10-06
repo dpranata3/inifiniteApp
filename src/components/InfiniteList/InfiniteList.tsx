@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {dataURL} from '../../assets/dummies/dummyData';
 import {AlbumType} from '../Utils/types';
+import SkeletonList from '../Skeletons/SkeletonList';
 
 const InfiniteList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,7 +17,7 @@ const InfiniteList = () => {
   const [itemList, setItemList] = useState<Array<AlbumType>>([]);
 
   const fetchList = () => {
-    fetch(`${dataURL}?_limit=5&_page${isCurrentPage}`)
+    fetch(`${dataURL}?_limit=10&_page${isCurrentPage}`)
       .then(res => res.json())
       .then(resJson => {
         setItemList(itemList.concat(resJson));
@@ -34,7 +35,9 @@ const InfiniteList = () => {
   };
 
   const renderItem = ({item, index}: {item: AlbumType; index: number}) => {
-    return (
+    return isLoading ? (
+      <SkeletonList key={index} />
+    ) : (
       <View style={ListStyle.item} key={index}>
         <Image source={{uri: item.url}} style={ListStyle.imageSize} />
         <View style={ListStyle.titleContainer}>
@@ -67,7 +70,7 @@ const InfiniteList = () => {
       renderItem={({item, index}) => renderItem({item, index})}
       keyExtractor={(item, index) => index.toString()}
       onEndReached={handleMore}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={0.2}
       ListFooterComponent={renderFooter}
       showsVerticalScrollIndicator={false}
     />
