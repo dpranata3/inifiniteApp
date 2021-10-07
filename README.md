@@ -1,5 +1,8 @@
 # inifiniteApp
 Features :
 1. Carousel -> Using Flatlist
-2. Infinite Scroll -> using https://jsonplaceholder.typicode.com
+2. Infinite Scroll
 3. Skeleton Component
+
+API Used: 
+https://jsonplaceholder.typicode.com/
