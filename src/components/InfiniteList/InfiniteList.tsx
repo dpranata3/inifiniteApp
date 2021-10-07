@@ -7,9 +7,10 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-import {dataURL} from '../../assets/dummies/dummyData';
 import {AlbumType} from '../Utils/types';
+import fetchData from '../Utils/fetchData';
 import SkeletonList from '../Skeletons/SkeletonList';
 
 const InfiniteList = () => {
@@ -17,17 +18,15 @@ const InfiniteList = () => {
   const [isCurrentPage, setIsCurrentPage] = useState<number>(1);
   const [itemList, setItemList] = useState<Array<AlbumType>>([]);
 
-  const fetchList = () => {
-    fetch(`${dataURL}?_limit=5&_page${isCurrentPage}`)
-      .then(res => res.json())
-      .then(resJson => {
-        setItemList(itemList.concat(resJson));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        setIsLoading(false);
-        console.error(error);
-      });
+  const fetchList = async () => {
+    try {
+      const result = await fetchData(isCurrentPage);
+      setItemList(itemList.concat(result));
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      Alert.alert(error as string);
+    }
   };
 
   const handleMore = () => {

@@ -7,21 +7,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {AlbumType} from '../Utils/types';
-import {dataURL} from '../../assets/dummies/dummyData';
+import fetchData from '../Utils/fetchData';
 
 const Carousel = () => {
   const [albumList, setAlbumList] = useState<Array<AlbumType>>([]);
   const [isHighlight, setIsHighlight] = useState<boolean>(false);
 
-  const fetchData = async () => {
-    fetch(`${dataURL}?_limit=10`)
-      .then(res => res.json())
-      .then(resJson => {
-        setAlbumList(albumList.concat(resJson));
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const fetchCarousel = async () => {
+    try {
+      const result = await fetchData();
+      setAlbumList(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const renderItem = ({item, index}: {item: any; index: number}) => {
@@ -38,7 +36,7 @@ const Carousel = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchCarousel();
 
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
