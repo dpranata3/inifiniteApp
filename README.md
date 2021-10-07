@@ -1,4 +1,4 @@
-# inifiniteApp 
+# Infinite App 
 ## Description: 
 Mini project built in React Native & Typescript
 
